@@ -35,7 +35,9 @@ class Countdown():
         
         eLetters = tk.Entry(f, font = layoutFont)
         eLetters.pack(side = tk.TOP, fill = tk.X, expand = True)
+        eLetters.bind('<Key>', self._validate_input)
         eLetters.bind('<Control-a>', self._select_all)
+        eLetters.focus()
         
         bCalculate = tk.Button(f, text = 'Calculate', font = layoutFont)
         bCalculate.pack(side = tk.TOP, anchor = tk.W, fill = tk.X, expand = True)
@@ -58,6 +60,12 @@ class Countdown():
         bCalculate.configure(command = calc)
         eLetters.bind('<Return>', calc)
     
+    def _validate_input(self, event):
+        if event.char and event.char not in 'abcdefghijklmnopqrstuvqxyz':
+            return 'break'
+        
+        return None
+    
     def _select_all(self, event):
         event.widget.select_range(0, tk.END)
         return 'break'
@@ -68,8 +76,7 @@ class Countdown():
         if not selection:
             return
         
-        value = widget.get(selection[0])
-        value = value.split(' ', 1)[1]
+        value = widget.get(selection[0]).split(' ', 1)[1]
         
         webbrowser.open('https://www.google.com/search?q=define+' + value, 2)
     
@@ -79,8 +86,7 @@ class Countdown():
         
         lResults.delete(0, 'end')
         
-        results = self._calculate(eLetters.get().strip())
-        for result in results:
+        for result in self._calculate(eLetters.get().strip()):
             lResults.insert('end', '(%d) %s' % (len(result), result))
         
         self.root.config(cursor = '')
@@ -98,7 +104,7 @@ class Countdown():
             if not any(val < 0 for val in difference.values()):
                 results.append(word)
         
-        return sorted(results, key = lambda word: len(word), reverse = True)
+        return sorted(results, key = len, reverse = True)
     
     def _resource_path(self, relative):
         if getattr(sys, 'frozen', False):

@@ -33,9 +33,10 @@ class Countdown():
         l = ttk.Label(f, text = 'Letters:', font = layoutFont)
         l.pack(side = tk.TOP, anchor = tk.W)
         
-        eLetters = tk.Entry(f, font = layoutFont)
+        eLetters = tk.Entry(f, font = layoutFont, validate = 'key')
+        vcmd = eLetters.register(self.validate_input)
+        eLetters.config(validatecommand = (vcmd, '%d', '%S'))
         eLetters.pack(side = tk.TOP, fill = tk.X, expand = True)
-        eLetters.bind('<Key>', self._validate_input)
         eLetters.bind('<Control-a>', self._select_all)
         eLetters.focus()
         
@@ -60,11 +61,11 @@ class Countdown():
         bCalculate.configure(command = calc)
         eLetters.bind('<Return>', calc)
     
-    def _validate_input(self, event):
-        if event.char and event.char not in 'abcdefghijklmnopqrstuvqxyz':
-            return 'break'
+    def validate_input(self, action, key):
+        if action == '1' and key not in 'abcdefghijklmnopqrstuvwxyz':
+            return False
         
-        return None
+        return True
     
     def _select_all(self, event):
         event.widget.select_range(0, tk.END)

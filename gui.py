@@ -1,6 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import Tkinter as tk, ttk, tkFont
-#import tkinter.ttk as ttk
-#import tkinter.font as tkFont
 import os, sys
 import collections
 import webbrowser

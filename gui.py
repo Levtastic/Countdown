@@ -6,7 +6,7 @@ import collections
 import webbrowser
 
 
-class Countdown():
+class App():
     def __init__(self):
         app_name = 'Countdown'
 
@@ -19,7 +19,9 @@ class Countdown():
 
         root.after_idle(self._load_words)
 
-        root.mainloop()
+    @property
+    def mainloop(self):
+        return self.root.mainloop
 
     def _resource_path(self, relative):
         if getattr(sys, 'frozen', False):
@@ -144,4 +146,5 @@ class Countdown():
 
 
 if __name__ == '__main__':
-    Countdown()
+    app = App()
+    app.mainloop()

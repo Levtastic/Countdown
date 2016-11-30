@@ -27,7 +27,8 @@ class App():
     def mainloop(self):
         return self.root.mainloop
 
-    def _resource_path(self, relative):
+    @staticmethod
+    def _resource_path(relative):
         if getattr(sys, 'frozen', False):
             basedir = sys._MEIPASS
         else:

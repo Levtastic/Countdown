@@ -3,7 +3,6 @@
 
 import Tkinter as tk, ttk, tkFont
 import os, sys
-import collections
 import webbrowser
 
 from countdown import Solver

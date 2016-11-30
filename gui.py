@@ -5,10 +5,14 @@ import os, sys
 import collections
 import webbrowser
 
+from countdown import Solver
+
 
 class App():
     def __init__(self):
         app_name = 'Countdown'
+
+        self.solver = Solver()
 
         self.root = root = tk.Tk()
         root.title(app_name)
@@ -36,10 +40,7 @@ class App():
         self._set_all_states(tk.DISABLED)
         self.root.update()
 
-        with open(self._resource_path('words.txt')) as f:
-            words = [word.strip().lower() for word in f.readlines()]
-
-        self.words = dict(zip(words, [collections.Counter(word) for word in words]))
+        self.solver.load_words(self._resource_path('words.txt'))
 
         self.root.config(cursor='')
         self._set_all_states(tk.NORMAL)
@@ -123,26 +124,11 @@ class App():
         lResults.config(state=tk.NORMAL)
         lResults.delete(0, 'end')
 
-        for result in self._calculate(eLetters.get().strip()):
+        for result in self.solver.get_matches(eLetters.get()):
             lResults.insert('end', '(%d) %s' % (len(result), result))
 
         self.root.config(cursor='')
         self._set_all_states(tk.NORMAL)
-
-    def _calculate(self, letters):
-        if not letters:
-            return []
-
-        results = []
-        letters = collections.Counter(letters.lower())
-
-        for word, word_letters in self.words.items():
-            difference = collections.Counter(letters)
-            difference.subtract(word_letters)
-            if not any(val < 0 for val in difference.values()):
-                results.append(word)
-
-        return sorted(results, key=len, reverse=True)
 
 
 if __name__ == '__main__':

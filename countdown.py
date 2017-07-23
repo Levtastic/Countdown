@@ -18,7 +18,6 @@ class Solver:
         if not letters:
             return []
 
-        results = []
         letters = Counter(letters.strip().lower())
 
         for word, word_letters in self._words.items():

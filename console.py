@@ -31,7 +31,7 @@ class App():
             return False
 
         self.solver.load_words(self._resource_path('words.txt'))
-        results = self.solver.get_matches(letters)
+        results = list(self.solver.get_matches(letters))
 
         self.end_time = time.time()
 
@@ -44,6 +44,8 @@ class App():
         return letters
 
     def _display(self, results):
+        results.sort(key=len)
+
         print('{} words found in {:.5f} seconds:'.format(
             len(results),
             self.end_time - self.start_time

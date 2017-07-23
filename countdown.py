@@ -22,9 +22,10 @@ class Solver:
         letters = Counter(letters.strip().lower())
 
         for word, word_letters in self._words.items():
+            if len(word) > len(letters):
+                continue
+
             difference = Counter(letters)
             difference.subtract(word_letters)
             if not any(val < 0 for val in difference.values()):
-                results.append(word)
-
-        return sorted(results, key=len, reverse=True)
+                yield word

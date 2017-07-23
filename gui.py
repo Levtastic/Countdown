@@ -125,7 +125,10 @@ class App():
         lResults.config(state=tk.NORMAL)
         lResults.delete(0, 'end')
 
-        for result in self.solver.get_matches(eLetters.get()):
+        results = list(self.solver.get_matches(eLetters.get()))
+        results.sort(key=len, reverse=True)
+
+        for result in results:
             lResults.insert('end', '(%d) %s' % (len(result), result))
 
         self.root.config(cursor='')

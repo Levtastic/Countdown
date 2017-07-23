@@ -27,5 +27,8 @@ class Solver:
 
             difference = Counter(letters)
             difference.subtract(word_letters)
-            if not any(val < 0 for val in difference.values()):
-                yield word
+
+            if any(val < 0 for val in difference.values()):
+                continue
+            
+            yield word

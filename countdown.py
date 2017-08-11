@@ -24,10 +24,7 @@ class Solver:
             if len(word) > len(letters):
                 continue
 
-            difference = Counter(letters)
-            difference.subtract(word_letters)
-
-            if any(val < 0 for val in difference.values()):
+            if any(letters[char] < count for char, count in word_letters.items()):
                 continue
-            
+
             yield word

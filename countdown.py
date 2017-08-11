@@ -18,13 +18,13 @@ class Solver:
         if not letters:
             return []
 
-        letters = Counter(letters.strip().lower())
+        lcount = Counter(letters.strip().lower())
 
-        for word, word_letters in self._words.items():
+        for word, wcount in self._words.items():
             if len(word) > len(letters):
                 continue
 
-            if any(letters[char] < count for char, count in word_letters.items()):
+            if any(lcount[char] < count for char, count in wcount.items()):
                 continue
 
             yield word

@@ -41,7 +41,5 @@ class Word:
 
     @property
     def counter(self):
-        if self._counter is None:
-            self._counter = Counter(self._value)
-
+        self._counter = self._counter or Counter(self._value)
         return self._counter

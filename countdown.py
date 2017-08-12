@@ -10,9 +10,7 @@ class Solver:
 
     def load_words(self, filename):
         with open(filename) as file:
-            words = [word.strip().lower() for word in file.readlines()]
-
-        self._words = {word: Counter(word) for word in words}
+            self._words = [Word(word) for word in file.readlines()]
 
     def get_matches(self, letters):
         letters = letters.strip().lower()
@@ -22,9 +20,26 @@ class Solver:
 
         lcount = Counter(letters)
 
-        for word, wcount in self._words.items():
-            if len(word) > len(letters):
+        for word in self._words:
+            if len(word.value) > len(letters):
                 continue
 
-            if all(lcount[char] >= count for char, count in wcount.items()):
-                yield word
+            if all(lcount[char] >= count for char, count in word.counter.items()):
+                yield word.value
+
+
+class Word:
+    def __init__(self, value):
+        self._value = value.strip().lower()
+        self._counter = None
+
+    @property
+    def value(self):
+        return self._value
+
+    @property
+    def counter(self):
+        if self._counter is None:
+            self._counter = Counter(self._value)
+
+        return self._counter

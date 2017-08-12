@@ -29,6 +29,8 @@ class Solver:
 
 
 class Word:
+    __slots__ = ('_value', '_counter')
+
     def __init__(self, value):
         self._value = value.strip().lower()
         self._counter = None

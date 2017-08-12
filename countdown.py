@@ -6,7 +6,7 @@ from collections import Counter
 
 class Solver:
     def __init__(self):
-        self._words = {}
+        self._words = []
 
     def load_words(self, filename):
         with open(filename) as file:

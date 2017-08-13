@@ -31,7 +31,7 @@ class App():
             return False
 
         self.solver.load_words(self._resource_path('words.txt'))
-        results = list(self.solver.get_matches(letters))
+        results = self.solver.get_matches(letters)
 
         self.end_time = time.time()
 

@@ -13,19 +13,12 @@ class Solver:
             self._words = [Word(word) for word in file.readlines()]
 
     def get_matches(self, letters):
-        letters = letters.strip().lower()
+        lword = Word(letters)
 
-        if not letters:
+        if not lword.value:
             return []
 
-        lcount = Counter(letters)
-
-        for word in self._words:
-            if len(word.value) > len(letters):
-                continue
-
-            if all(lcount[char] >= count for char, count in word.counter.items()):
-                yield word.value
+        return [word.value for word in self._words if word.fits_in(lword)]
 
 
 class Word:
@@ -41,5 +34,13 @@ class Word:
 
     @property
     def counter(self):
-        self._counter = self._counter or Counter(self._value)
+        self._counter = self._counter or Counter(self.value)
         return self._counter
+
+    def fits_in(self, other):
+        if len(self.value) > len(other.value):
+            return False
+
+        return all(
+            other.counter[char] >= count for char, count in self.counter.items()
+        )

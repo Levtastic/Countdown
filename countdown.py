@@ -15,9 +15,6 @@ class Solver:
     def get_matches(self, letters):
         lword = Word(letters)
 
-        if not lword.value:
-            return []
-
         return [word.value for word in self._words if word.fits_in(lword)]
 
 

@@ -38,9 +38,6 @@ class Word:
         return self._counter
 
     def fits_in(self, other):
-        if len(self.value) > len(other.value):
-            return False
-
-        return all(
+        return len(self.value) <= len(other.value) and all(
             other.counter[char] >= count for char, count in self.counter.items()
         )
